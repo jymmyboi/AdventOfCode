@@ -15,9 +15,10 @@ def highest_check_part_2(line, index_amt):
     digit_list = []
     max_index = num_list.index(max(num_list[:(index_amt - 1)]))
     digit_list.append(num_list[max_index])
+    print(digit_list)
     for i in range(index_amt):
         print(digit_list)
-        max_index = num_list.index(max(num_list[max_index+1:(index_amt-1)]))
+        max_index = num_list.index(max(num_list[max_index+1:((index_amt-1) - i) if (index_amt-1) > 0 else 1]))
         digit_list.append(num_list[max_index])
         
 
