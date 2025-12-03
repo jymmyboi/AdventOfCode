@@ -13,12 +13,13 @@ def highest_check_part_1(line):
 def highest_check_part_2(line, index_amt):
     num_list = [int(i) for i in str(line).strip()]
     digit_list = []
-    max_index = 0
+    max_index = num_list.index(max(num_list[:(index_amt - 1)]))
+    digit_list.append(num_list[max_index])
     for i in range(index_amt):
+        print(digit_list)
         max_index = num_list.index(max(num_list[max_index+1:(index_amt-1)]))
         digit_list.append(num_list[max_index])
-        print(digit_list)
-
+        
 
 total = 0
 
