@@ -1,4 +1,4 @@
-with open("2025/Day4/test.txt") as file:
+with open("2025/Day4/4.txt") as file:
     raw_lines = file.readlines()
     lines = [line.strip() for line in raw_lines]
 
@@ -11,7 +11,7 @@ def create_grid(lines):
     return grid
 
 def check_directions(grid):
-
+    to_clear = []
     paper_total = 0
     directions = {
         'nw': (-1, -1),
@@ -32,15 +32,15 @@ def check_directions(grid):
                 chk_y = sy + directions[direction][1]
                 if not (chk_x, chk_y) in grid.keys():
                     continue
-
-                # print(f"checking {grid.get((chk_x,chk_y))}")
                 if grid.get((chk_x,chk_y)) == '@':
                     roll_count += 1
-                    grid[i] = "."
             if roll_count < 4:
                 paper_total += 1
+                to_clear.append(i)
 
-    print(paper_total)
+    print(f"run total: {paper_total}")
+    for cell in to_clear:
+        grid[cell] = "."
     return paper_total
 
 
@@ -51,11 +51,11 @@ paper_total = 0
 
 complete = False
 while not complete:
-    if check_directions(grid) == 0:
+    run = check_directions(grid)
+    if run == 0:
         complete = True
     else:
-        paper_total = check_directions(grid)
-
+        paper_total += run
 
 print(paper_total)
 
