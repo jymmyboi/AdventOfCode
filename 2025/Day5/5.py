@@ -1,4 +1,6 @@
 import collections
+
+import itertools
 with open("2025\\Day5\\5.txt") as input:
     lines = input.readlines()
 
@@ -26,48 +28,44 @@ def part_1_id_check(lines):
 
 def part_2_id_check(lines):
     ranges = []
+    starts = []
+    ends = []
     for line in lines:
         if '-' in line:
             ranges.append(line.strip())
-    range_dict = {}
-    for check_range in ranges:
-        range_array = check_range.split('-')
-        range_dict[int(range_array[0])] = 0
-        range_dict[int(range_array[1])] = 1
-        
-    ordered_range = collections.OrderedDict(sorted(range_dict.items()))
-    result = range_count(ordered_range)
-    # print(result)
-    return result
-
-def range_count(range_dict):
-    print(range_dict)
     
-    previous_value = 0
-    start_val = 0
-    end_val = []
-    for id in range_dict:
-        
-        # if range_dict[(range_dict.index(id) - 1)] == 0 and range_dict[id] == 0:
-        #     continue
-        if range_dict[id] == 0:
-            print(start_val, previous_value)
-            end_val.append((previous_value - (start_val+1)) if previous_value != 0 else 0)
-            start_val = id
-        else:
-            previous_value = id
-            previous_key = range_dict[id]
+    for id_range in ranges:
+        range_array = id_range.split('-')
+        starts.append(int(range_array[0]))
+        ends.append(int(range_array[1]))
+
+    clean_ends = list(set(ends))
+    sorted_ends = sorted(clean_ends)
+
+    clean_starts = list(set(starts))
+    sorted_starts = sorted(clean_starts)
+
+    # print(f"sorted_starts {sorted_starts}")
+    # print(f"sorted_ends {sorted_ends}")
+
+    lower_bound = 0
+    upper_bound = 0
+    id_count = 0
+    for start,end in zip(sorted_starts, sorted_ends):
+        if start > upper_bound:
+            id_count += (upper_bound - (lower_bound - 1)) if upper_bound != 0 else 0
+            lower_bound = start
+            upper_bound = end
+        elif start < upper_bound:
+            upper_bound = end
+        # print(id_count)
+        print(f"{start}, {end}, {lower_bound}, {upper_bound}")
     
-    result = 0
-    for i in end_val:
-        # print(i)
-        result += i
-
-    return result
-        
+    id_count += (upper_bound - (lower_bound - 1))
+    # print(id_count)
 
 
-    
+
 
 
 
